@@ -18,9 +18,7 @@ const (
 	port = ":50051"
 )
 
-type server struct {
-	pb.CsvServer
-}
+type server struct{}
 
 var (
 	db        *sql.DB
