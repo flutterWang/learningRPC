@@ -7,7 +7,9 @@ import (
 	"log"
 	"net"
 
-	csv "github.com/flutterWang/learningRPC/basic/proto/csv"
+	_ "github.com/go-sql-driver/mysql"
+
+	pb "github.com/flutterWang/learningRPC/basic/proto/csv"
 
 	"google.golang.org/grpc"
 )
@@ -17,7 +19,7 @@ const (
 )
 
 type server struct {
-	csv.UnimplementedSqlServiceServer
+	pb.UnimplementedCsvServer
 }
 
 var (
@@ -34,18 +36,19 @@ func init() {
 	}
 }
 
-func (s *server) ImportData(ctx context.Context, in *csv.ImportDataRequest) (*csv.ImportDataReply, error) {
+func (s *server) ImportData(ctx context.Context, in *pb.ImportDataRequest) (*pb.ImportDataReply, error) {
 	fileName := in.GetFileName()
 	tableName := in.GetTableName()
-	_, err := db.Exec(sqlString)
+	execString := fmt.Sprintf(sqlString, fileName, tableName)
+	_, err := db.Exec(execString)
 	if err != nil {
 		fmt.Println(err)
 	}
 	if err != nil {
-		return &csv.ImportDataReply{Message: "init mysql fail"}, nil
+		return &pb.ImportDataReply{Message: "init mysql fail"}, nil
 	}
 
-	return &csv.ImportDataReply{Message: "init mysql succeed"}, nil
+	return &pb.ImportDataReply{Message: "init mysql succeed"}, nil
 }
 
 func main() {
@@ -55,7 +58,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	csv.RegisterSqlServiceServer(s, &server{})
+	pb.RegisterCsvServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
