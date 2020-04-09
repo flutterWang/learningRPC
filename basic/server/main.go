@@ -19,7 +19,7 @@ const (
 )
 
 type server struct {
-	pb.UnimplementedCsvServer
+	pb.CsvServer
 }
 
 var (
