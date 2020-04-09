@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package csv;
+
+// The greeting service definition.
+service SqlService {
+  // Sends a greeting
+  rpc ImportData (ImportDataRequest) returns (ImportDataReply) {}
+}
+
+// The request message containing the filePath and tableName
+message ImportDataRequest {
+  string fileName = 1;
+  string tableName = 2;
+}
+
+// The response message containing the 
+message ImportDataReply {
+  string message = 1;
+}
