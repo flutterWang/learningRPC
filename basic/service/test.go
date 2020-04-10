@@ -44,6 +44,9 @@ func (s *TestServer) Test(ctx context.Context, in *pb.TestRequest) (*pb.TestResp
 	testOneof := in.GetName()
 	fmt.Println("Oneof type:", testOneof)
 
+	testSub := in.GetSubmessage()
+	fmt.Println("Subimport type:", testSub)
+
 	var an *any.Any
 	an, err := ptypes.MarshalAny(&pb.TestDetail{Msg: "Good Request"})
 	if err != nil {

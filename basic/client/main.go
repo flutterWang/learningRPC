@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/flutterWang/learningRPC/basic/proto/sub"
 	"github.com/flutterWang/learningRPC/basic/proto/test"
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
@@ -42,15 +43,20 @@ func Test(conn *grpc.ClientConn) {
 		Name: "wbofeng",
 	}
 
+	subMessage := &sub.SubMessage{
+		Msg: "hello",
+	}
+
 	// r, err := c.ImportData(ctx, &csv.ImportDataRequest{FileName: "./electricData.csv", TableName: "electrion"})
 	r, err := c.Test(ctx, &test.TestRequest{
-		Query:     "hello",
-		Type:      JSON,
-		TestMap:   testmap,
-		Child:     child,
-		Char:      char,
-		Snippets:  snippets,
-		TestOneof: oneof,
+		Query:      "hello",
+		Type:       JSON,
+		TestMap:    testmap,
+		Child:      child,
+		Char:       char,
+		Snippets:   snippets,
+		TestOneof:  oneof,
+		Submessage: subMessage,
 	})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
