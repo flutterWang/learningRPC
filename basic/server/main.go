@@ -7,7 +7,8 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	pb "github.com/flutterWang/learningRPC/basic/proto/csv"
+	csv "github.com/flutterWang/learningRPC/basic/proto/csv"
+	test "github.com/flutterWang/learningRPC/basic/proto/test"
 	"github.com/flutterWang/learningRPC/basic/service"
 	"github.com/flutterWang/learningRPC/tools/mysql"
 
@@ -34,7 +35,8 @@ func main() {
 
 	s := grpc.NewServer()
 
-	pb.RegisterCsvServer(s, service.NewImportDataServer(db, sqlString))
+	csv.RegisterCsvServer(s, service.NewImportDataServer(db, sqlString))
+	test.RegisterTestServer(s, service.NewTestServer())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

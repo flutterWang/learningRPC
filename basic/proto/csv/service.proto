@@ -6,6 +6,7 @@ package csv;
 service Csv {
   // Sends a greeting
   rpc ImportData (ImportDataRequest) returns (ImportDataReply) {}
+  rpc Test (TestRequest) returns (TestResponse) {}
 }
 
 // The request message containing the filePath and tableName
@@ -17,4 +18,14 @@ message ImportDataRequest {
 // The response message containing the 
 message ImportDataReply {
   string message = 1;
+}
+
+message TestRequest {
+  string num = 1;
+  string num = 2;
+}
+
+message TestResponse {
+  string state = 1;
+  string state = 2;
 }

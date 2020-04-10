@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package test;
+
+// The greeting service definition.
+service Test {
+  // Sends a greeting
+  rpc Test (TestRequest) returns (TestResponse) {}
+}
+
+message TestRequest {
+  string query = 1;
+  DocumentExtType type = 2;
+  map<string,string> testMap = 3;
+  message Child {
+    int32 age = 1;
+  }
+  Child child = 4;
+  bytes char = 5;
+  repeated string snippets = 6;
+}
+
+enum DocumentExtType{
+  HTML = 0;
+  XML = 1;
+  JSON = 2;
+  PDF = 3;
+}
+
+message TestResponse {
+  string state = 1;
+}
