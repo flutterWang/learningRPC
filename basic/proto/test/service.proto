@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/any.proto";
-
+import "sub.proto";
 
 package test;
 
@@ -25,6 +25,7 @@ message TestRequest {
     string name = 7;
     string sub_name = 8;
   }
+  sub.SubMessage submessage = 9;
 }
 
 enum DocumentExtType{
