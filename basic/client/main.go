@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/flutterWang/learningRPC/basic/proto/test"
+	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
 )
 
@@ -30,25 +31,37 @@ func Test(conn *grpc.ClientConn) {
 	testmap["one"] = "hello"
 
 	char := []byte("hello world")
+
 	child := &test.TestRequest_Child{
 		Age: 10,
 	}
 
 	snippets := []string{"hello", "world"}
+
+	oneof := &test.TestRequest_Name{
+		Name: "wbofeng",
+	}
+
 	// r, err := c.ImportData(ctx, &csv.ImportDataRequest{FileName: "./electricData.csv", TableName: "electrion"})
 	r, err := c.Test(ctx, &test.TestRequest{
-		Query:    "hello",
-		Type:     JSON,
-		TestMap:  testmap,
-		Child:    child,
-		Char:     char,
-		Snippets: snippets,
+		Query:     "hello",
+		Type:      JSON,
+		TestMap:   testmap,
+		Child:     child,
+		Char:      char,
+		Snippets:  snippets,
+		TestOneof: oneof,
 	})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 
-	log.Printf("Greeting: %s", r.GetState())
+	var detail test.TestDetail
+	err = ptypes.UnmarshalAny(r.GetDetails(), &detail)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Detail:%+v", detail)
 }
 
 func main() {

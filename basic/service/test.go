@@ -6,6 +6,8 @@ import (
 	"fmt"
 
 	pb "github.com/flutterWang/learningRPC/basic/proto/test"
+	"github.com/golang/protobuf/ptypes"
+	"github.com/golang/protobuf/ptypes/any"
 )
 
 // TestServer -
@@ -39,5 +41,16 @@ func (s *TestServer) Test(ctx context.Context, in *pb.TestRequest) (*pb.TestResp
 	testSlice := in.GetSnippets()
 	fmt.Println("slice type:", testSlice)
 
-	return &pb.TestResponse{State: "hello"}, nil
+	testOneof := in.GetName()
+	fmt.Println("Oneof type:", testOneof)
+
+	var an *any.Any
+	an, err := ptypes.MarshalAny(&pb.TestDetail{Msg: "Good Request"})
+	if err != nil {
+	}
+
+	return &pb.TestResponse{
+		State:   "hello",
+		Details: an,
+	}, nil
 }

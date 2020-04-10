@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+import "google/protobuf/any.proto";
+
+
 package test;
 
 // The greeting service definition.
@@ -18,6 +21,10 @@ message TestRequest {
   Child child = 4;
   bytes char = 5;
   repeated string snippets = 6;
+  oneof test_oneof {
+    string name = 7;
+    string sub_name = 8;
+  }
 }
 
 enum DocumentExtType{
@@ -29,4 +36,9 @@ enum DocumentExtType{
 
 message TestResponse {
   string state = 1;
+  google.protobuf.Any details = 2;
+}
+
+message TestDetail {
+  string msg = 1;
 }
