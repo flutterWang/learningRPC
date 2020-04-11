@@ -5,7 +5,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/flutterWang/learningRPC/basic/proto/sub"
 	"github.com/flutterWang/learningRPC/basic/proto/test"
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
@@ -28,13 +27,13 @@ func Test(conn *grpc.ClientConn) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	testmap := make(map[string]string)
-	testmap["one"] = "hello"
+	testmap := make(map[int32]string)
+	testmap[1] = "hello"
 
 	char := []byte("hello world")
 
 	child := &test.TestRequest_Child{
-		Age: 10,
+		Name: 10,
 	}
 
 	snippets := []string{"hello", "world"}
@@ -43,20 +42,20 @@ func Test(conn *grpc.ClientConn) {
 		Name: "wbofeng",
 	}
 
-	subMessage := &sub.SubMessage{
-		Msg: "hello",
-	}
+	// subMessage := &sub.SubMessage{
+	// 	Msg: "hello",
+	// }
 
 	// r, err := c.ImportData(ctx, &csv.ImportDataRequest{FileName: "./electricData.csv", TableName: "electrion"})
 	r, err := c.Test(ctx, &test.TestRequest{
-		Query:      "hello",
-		Type:       JSON,
-		TestMap:    testmap,
-		Child:      child,
-		Char:       char,
-		Snippets:   snippets,
-		TestOneof:  oneof,
-		Submessage: subMessage,
+		// Query:     "hello",
+		Type:      JSON,
+		TestMap:   testmap,
+		Char:      char,
+		Snippets:  snippets,
+		Child:     child,
+		TestOneof: oneof,
+		// Submessage: subMessage,
 	})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)

@@ -2,8 +2,10 @@ syntax = "proto3";
 
 import "google/protobuf/any.proto";
 import "basic/proto/sub/sub.proto";
+import "google/protobuf/wrappers.proto";
 
 package test;
+option go_package = "github.com/flutterWang/learningRPC/basic/proto/test";  
 
 // The greeting service definition.
 service Test {
@@ -11,12 +13,13 @@ service Test {
   rpc Test (TestRequest) returns (TestResponse) {}
 }
 
+
 message TestRequest {
-  string query = 1;
+  google.protobuf.StringValue query = 1; 
   DocumentExtType type = 2;
-  map<string,string> testMap = 3;
+  map<int32,string> testMap = 3;
   message Child {
-    int32 age = 1;
+    int32 name = 1;
   }
   Child child = 4;
   bytes char = 5;

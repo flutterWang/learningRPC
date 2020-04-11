@@ -23,8 +23,10 @@ func NewTestServer() *TestServer {
 
 // Test -
 func (s *TestServer) Test(ctx context.Context, in *pb.TestRequest) (*pb.TestResponse, error) {
-	query := in.GetQuery()
-	fmt.Println("string:", query)
+	fmt.Println("output: ---------------------------")
+	if in.GetQuery() == nil {
+		fmt.Println("query is nil")
+	}
 
 	obj := in.GetType()
 	fmt.Println("enum type:", obj)
@@ -44,8 +46,8 @@ func (s *TestServer) Test(ctx context.Context, in *pb.TestRequest) (*pb.TestResp
 	testOneof := in.GetName()
 	fmt.Println("Oneof type:", testOneof)
 
-	testSub := in.GetSubmessage()
-	fmt.Println("Subimport type:", testSub)
+	// testSub := in.GetSubmessage()
+	// fmt.Println("Subimport type:", testSub)
 
 	var an *any.Any
 	an, err := ptypes.MarshalAny(&pb.TestDetail{Msg: "Good Request"})
