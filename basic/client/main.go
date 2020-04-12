@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/flutterWang/learningRPC/basic/clientmethods/test"
+	"github.com/flutterWang/learningRPC/basic/client/methods/test"
 	"google.golang.org/grpc"
 )
 
