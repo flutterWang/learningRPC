@@ -1,39 +1,38 @@
 package service
 
 import (
-	"database/sql"
-	"fmt"
 	"context"
+	"database/sql"
+	"io/ioutil"
 
-	pb "github.com/flutterWang/learningRPC/basic/proto/csv"	
+	pb "github.com/flutterWang/learningRPC/basic/proto/csv"
 )
 
-// ImportdataServer -
-type ImportdataServer struct{
+// CsvServer -
+type CsvServer struct {
 	db *sql.DB
-	sqlString string
 }
 
-// NewImportDataServer -
-func NewImportDataServer(db *sql.DB, sqlString string) *ImportdataServer {
-	return &ImportdataServer{
+// NewCsvServer -
+func NewCsvServer(db *sql.DB) *CsvServer {
+	return &CsvServer{
 		db: db,
-		sqlString: sqlString,
 	}
 }
 
-// ImportData -
-func (s *ImportdataServer) ImportData(ctx context.Context, in *pb.ImportDataRequest) (*pb.ImportDataReply, error) {
-	fileName := in.GetFileName()
-	tableName := in.GetTableName()
-	execString := fmt.Sprintf(s.sqlString, fileName, tableName)
-	_, err := s.db.Exec(execString)
+// Upload -
+func (s *CsvServer) Upload(ctx context.Context, in *pb.UploadRequest) (*pb.UploadResponse, error) {
+	file := in.GetFile()
+	// name := in.GetName()
+	// fileName := "mysqldata.csv"
+
+	err := ioutil.WriteFile("../../data/mysqldata.csv", file, 0644)
+
+	// err := mysql.ImportData(s.db, fileName, name)
+
 	if err != nil {
-		fmt.Println(err)
-	}
-	if err != nil {
-		return &pb.ImportDataReply{Message: "init mysql fail"}, nil
+		return &pb.UploadResponse{Code: 500, Message: "init mysql fail"}, nil
 	}
 
-	return &pb.ImportDataReply{Message: "init mysql succeed"}, nil
+	return &pb.UploadResponse{Code: 200, Message: "init mysql succeed"}, nil
 }

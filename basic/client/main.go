@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/flutterWang/learningRPC/basic/client/methods/test"
+	"github.com/flutterWang/learningRPC/basic/client/methods/stream"
 	"google.golang.org/grpc"
 )
 
@@ -17,7 +17,9 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	// c := csv.NewCsvClient(conn)
 
-	test.Test(conn)
+	// importdata.Upload(conn, "/Users/bofeng/Documents/electricData.csv", "electrion")
+	// stream.PrintClient(conn)
+	// stream.PrintServer(conn)
+	stream.PrintAll(conn)
 }

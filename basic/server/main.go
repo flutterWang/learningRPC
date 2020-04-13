@@ -7,10 +7,8 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	csv "github.com/flutterWang/learningRPC/basic/proto/csv"
-	test "github.com/flutterWang/learningRPC/basic/proto/test"
+	stream "github.com/flutterWang/learningRPC/basic/proto/stream"
 	"github.com/flutterWang/learningRPC/basic/service"
-	"github.com/flutterWang/learningRPC/tools/mysql"
 
 	"google.golang.org/grpc"
 )
@@ -20,23 +18,21 @@ const (
 )
 
 var (
-	db        *sql.DB
-	dburl     = "root:111111@tcp(127.0.0.1:3306)/test?charset=utf8&parseTime=True&loc=Local&allowAllFiles=true"
-	sqlString = `LOAD DATA INFILE "%v" INTO TABLE %v FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n'  IGNORE 1 LINES`
+	db    *sql.DB
+	dburl = "root:111111@tcp(127.0.0.1:3306)/test?charset=utf8&parseTime=True&loc=Local&allowAllFiles=true"
 )
 
 func main() {
-	db = mysql.InitDB(dburl)
+	// db = mysql.InitDB(dburl)
+	s := grpc.NewServer()
+
+	stream.RegisterStreamServer(s, service.NewStreamServer())
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer()
-
-	csv.RegisterCsvServer(s, service.NewImportDataServer(db, sqlString))
-	test.RegisterTestServer(s, service.NewTestServer())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

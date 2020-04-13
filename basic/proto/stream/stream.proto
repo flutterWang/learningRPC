@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package stream;
+
+option go_package = "github.com/flutterWang/learningRPC/basic/proto/stream";  
+
+service Stream {
+  rpc GetStream (StreamReq) returns (stream StreamResp){}
+  rpc PutStream (stream StreamReq) returns (StreamResp){}
+  rpc AllStream (stream StreamReq) returns (stream StreamResp){}
+}
+
+
+//stream请求结构
+message StreamReq {
+   string data = 1;
+}
+//stream返回结构
+message StreamResp {
+   string data = 1;
+}
