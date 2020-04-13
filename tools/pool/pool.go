@@ -11,6 +11,8 @@ import (
 type Pool struct {
 	m       sync.Mutex
 	res     chan io.Closer
+	active  uint
+	max     uint
 	factory func() (io.Closer, error)
 	closed  bool
 }
@@ -25,6 +27,8 @@ func New(fn func() (io.Closer, error), size uint) (*Pool, error) {
 	}
 	return &Pool{
 		factory: fn,
+		active:  0,
+		max:     size,
 		res:     make(chan io.Closer, size),
 	}, nil
 }
@@ -39,8 +43,13 @@ func (p *Pool) Get() (io.Closer, error) {
 		}
 		return r, nil
 	default:
-		log.Println("New resource")
-		return p.factory()
+		if p.active+1 <= p.max {
+			p.active++
+			log.Printf("New resource %d", p.active)
+			return p.factory()
+		}
+
+		return nil, errors.New("pool is full")
 	}
 }
 
@@ -54,6 +63,7 @@ func (p *Pool) Close() {
 	}
 
 	p.closed = true
+	p.active = 0
 
 	close(p.res)
 
