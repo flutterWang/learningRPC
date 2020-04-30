@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package sub;
-option go_package = "github.com/flutterWang/learningRPC/basic/proto/sub";
-
-message SubMessage {
-  string msg = 1;
-}
