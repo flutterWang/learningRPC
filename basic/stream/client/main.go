@@ -5,7 +5,7 @@ import (
 	"io"
 	"log"
 
-	pb "github.com/flutterWang/learningRPC/basic/proto/echo"
+	echo "github.com/flutterWang/learningRPC/basic/proto/echo"
 	"google.golang.org/grpc"
 )
 
@@ -14,11 +14,11 @@ const (
 )
 
 func printClient(conn *grpc.ClientConn) error {
-	client := pb.NewEchoClient(conn)
+	client := echo.NewEchoClient(conn)
 	stream, _ := client.ClientStreamingEcho(context.Background())
 
 	for n := 0; n < 6; n++ {
-		err := stream.Send(&pb.EchoRequest{
+		err := stream.Send(&echo.EchoRequest{
 			Message: "data from client",
 		})
 		if err != nil {
@@ -37,8 +37,8 @@ func printClient(conn *grpc.ClientConn) error {
 }
 
 func printServer(conn *grpc.ClientConn) error {
-	client := pb.NewEchoClient(conn)
-	stream, err := client.ServerStreamingEcho(context.Background(), &pb.EchoRequest{
+	client := echo.NewEchoClient(conn)
+	stream, err := client.ServerStreamingEcho(context.Background(), &echo.EchoRequest{
 		Message: "data from client",
 	})
 
@@ -62,14 +62,14 @@ func printServer(conn *grpc.ClientConn) error {
 }
 
 func printAll(conn *grpc.ClientConn) error {
-	client := pb.NewEchoClient(conn)
+	client := echo.NewEchoClient(conn)
 	stream, err := client.BidirectionalStreamingEcho(context.Background())
 	if err != nil {
 		return err
 	}
 
 	for n := 0; n <= 6; n++ {
-		err = stream.Send(&pb.EchoRequest{
+		err = stream.Send(&echo.EchoRequest{
 			Message: "data from client",
 		})
 		if err != nil {
