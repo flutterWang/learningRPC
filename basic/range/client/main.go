@@ -14,6 +14,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer conn.Close()
 
 	client := pb.NewRangeChunkerClient(conn)
 	stream, err := client.Range(context.Background(), &pb.Res{
