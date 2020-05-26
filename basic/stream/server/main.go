@@ -38,8 +38,6 @@ func (s *EchoServer) ClientStreamingEcho(stream echo.Echo_ClientStreamingEchoSer
 
 		log.Printf("stream.Recv Data: %s", r.Message)
 	}
-
-	return nil
 }
 
 // ServerStreamingEcho -
@@ -79,8 +77,6 @@ func (s *EchoServer) BidirectionalStreamingEcho(stream echo.Echo_BidirectionalSt
 
 		log.Printf("stream.Recv data: %s", r.Message)
 	}
-
-	return nil
 }
 
 const (

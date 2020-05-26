@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chunk;
+
+option go_package = "github.com/flutterWang/learningRPC/basic/proto/chunk";
+
+service Chunker {
+    rpc Chunker(Empty) returns (stream Chunk) {}
+}
+
+message Empty{}
+
+message Chunk {
+    bytes chunk = 1;
+}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"io"
 	"log"
+	"time"
 
 	echo "github.com/flutterWang/learningRPC/basic/proto/echo"
 	"google.golang.org/grpc"
@@ -69,6 +70,7 @@ func printAll(conn *grpc.ClientConn) error {
 	}
 
 	for n := 0; n <= 6; n++ {
+		time.Sleep(time.Second)
 		err = stream.Send(&echo.EchoRequest{
 			Message: "data from client",
 		})
