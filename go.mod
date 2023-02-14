@@ -3,17 +3,9 @@ module github.com/flutterWang/learningRPC
 go 1.13
 
 require (
-	github.com/astaxie/beego v1.12.1
-	github.com/coreos/etcd v3.3.20+incompatible
-	github.com/coreos/go-semver v0.3.0 // indirect
-	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf // indirect
-	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
-	github.com/go-sql-driver/mysql v1.5.0 // indirect
-	github.com/gogo/protobuf v1.3.1 // indirect
-	github.com/golang/protobuf v1.3.5
-	github.com/google/uuid v1.1.1 // indirect
-	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
-	go.uber.org/zap v1.15.0 // indirect
+	github.com/golang/protobuf v1.4.2
+	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
 	golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be
+	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
 	google.golang.org/grpc v1.28.1
 )
